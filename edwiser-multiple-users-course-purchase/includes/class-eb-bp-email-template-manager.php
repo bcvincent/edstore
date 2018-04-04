@@ -283,7 +283,7 @@ if (!class_exists("EbBpTemplateManager")) {
                                     <?php
                                     echo "{COHORT_CURRENT_USER_COURSES}";
                                     ?>
-                                </div>                                
+                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -479,7 +479,7 @@ if (!class_exists("EbBpTemplateManager")) {
                 }
                 $data .= "<div><p><strong>$prodName</strong></p><ol>";
                 foreach ($courses['moodle_post_course_id'] as $courseId) {
-                    $data.="<li><a href=" . get_permalink($courseId) . ">" . get_the_title($courseId) . "</a></li>";
+                    $data.="<li>" . get_the_title($courseId) . "</li>";
                 }
                 $data.="</ol></div>";
             }

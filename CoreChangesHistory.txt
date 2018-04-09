@@ -1,0 +1,23 @@
+ED STORE MODIFICATIONS TO EDWISER, WOOCOMMERCE, WORDPRESS CORE files
+
+woocommerce-integration/public/class-bridge-woodcommerce-public.php
+  Remove code that adds courses to the product list
+  from function groupedProductDisplayAssociatedCourses($product)
+  delete this and everything inside:if (isset($product_options['moodle_post_course_id']) && is_array($product_options['moodle_post_course_id']) && ! empty($product_options['moodle_post_course_id'])) {
+
+
+edwiser-bridge/public/shortcodes/class-eb-shortcode-my-courses.php
+  Remove title and change link on this My Courses page
+  Remove this:
+        if (!empty($atts['my_courses_wrapper_title'])) {
+        ?><h2><?php echo $atts['my_courses_wrapper_title']; ?></h2><?php
+      }
+  Change you are not enrolled in any courses link to just esc_url(site_url('/')
+
+
+edwiser-multiple-users-course-purchase/includes/class-eb-bp-email-template-manager.php
+  Remove hyperlink from courses in email.
+
+  edwiser-bridge/public/assets/css/eb-public.CSS
+
+    remove .form-row rule (it is only for margin) - this is screwing up forms in checkout page

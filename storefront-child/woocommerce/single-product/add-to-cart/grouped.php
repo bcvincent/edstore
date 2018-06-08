@@ -60,7 +60,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 
 							case 'moreinfo':
 
-								$value = $grouped_product->is_visible() ? '<a href ="'.esc_url( apply_filters( 'woocommerce_grouped_product_list_link', get_permalink( $grouped_product->get_id() ), $grouped_product->get_id() ) ).'" class="button">More Info</a>' : 'More Info';
+								$value = $grouped_product->is_visible() ? '<a href ="'.esc_url( apply_filters( 'woocommerce_grouped_product_list_link', $grouped_product_child->get_permalink(), $grouped_product_child->get_id() ) ).'" class="button">More Info</a>' : 'More Info';
 
 								break;
 

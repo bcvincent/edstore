@@ -1,0 +1,677 @@
+/*
+ Theme Name:   Storefront Child
+ Theme URI:    http://ket.org
+ Description:  Storefront Child Theme
+ Author:       Brian Vincent
+ Author URI:   http://example.com
+ Template:     storefront
+ Version:      1.0.0
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+ Text Domain:  storefront-child
+*/
+
+/*.storefront-primary-navigation {
+  display:none;
+  visibility: hidden;
+
+
+}*/
+body {
+  font-family: "futura-pt", sans-serif;
+  color:#444;
+  line-height:1.2;
+
+}
+.woocommerce-active .site-header .secondary-navigation{
+  margin-top:35px;
+}
+
+.site-header {
+  height:100px;
+  padding:0;
+  position:fixed;
+  border-bottom:20px solid #78BE20;
+  width:100%;
+  box-sizing:content-box;
+}
+
+.site-branding{
+  margin-top:30px;
+}
+
+.site-search {
+  margin-top:40px;
+}
+
+.woocommerce-breadcrumb{
+  margin-bottom:5px;
+  color:#005EB8;
+  margin-top:-30px;
+}
+
+/*more info button on grouped product pages*/
+.enrollment {
+  padding-bottom:25px;
+}
+.single-product div.product .summary{
+  margin-bottom:2em;
+    width: 100%;
+}
+
+table.shop_attributes{
+  font-size:12px;
+}
+.group_table tr.product td a{color:#78BE20;}
+.group_table tr.product td {
+  padding:0 10px 0 0;
+  vertical-align:middle;
+  background-color:transparent;
+}
+.group_table tr.product td label{
+  margin-bottom:0;
+  padding:0 0.75em;
+
+}
+.group_table tr.product td.woocommerce-grouped-product-list-item__label{
+  vertical-align:middle;
+  display:block;
+  padding:2em 0;
+}
+.group_table {
+  border: solid 1px darkgrey;
+  }
+
+.group_table tr:nth-child(odd){
+  background-color:#ececec;
+}
+.group_table tr.product td.woocommerce-grouped-product-list-item__moreinfo{
+margin-bottom:0;
+text-align:center;
+width:20%;
+
+}
+
+.group_table tr.product td.woocommerce-grouped-product-list-item__moreinfo a{
+  border:2px solid #78BE20;
+  background-color:white;
+  font-weight:bold;
+  padding:10px;
+  color:#444;
+  text-decoration:none;
+
+}
+.group_table tr.product td.woocommerce-grouped-product-list-item__moreinfo a:hover{
+  color:#78BE20;
+}
+
+.group_table .woocommerce-grouped-product-list-item__label {
+  white-space:inherit;
+  text-align:left;
+  font-size:100%;
+}
+
+
+.storefront-primary-navigation{
+  border-top:0;
+  /*1px solid #444;*/
+  background-color:white;
+  /*#78BE20;*/
+}
+.storefront-primary-navigation .site-header-cart li .cart-contents{
+  color:black;
+
+}
+
+.site-header-cart{
+  padding:0 2%;
+  margin: 0 0 2em;
+}
+/*.site-header ul.menu li.current-menu-item > a, .secondary-navigation ul.menu a
+{
+  color:white;
+}*/
+/*#masthead {
+  background-color:#78BE20;
+}*/
+#top-banner{
+    /*background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    padding: 60px 0;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 40px;*/
+    display:none; /*removing this for border on header instead*/
+    background-color:#78BE20;
+    /*#78bd1f;*/
+    height:20px;
+    margin-bottom:40px;
+  }
+
+  /*#top-banner h2 {
+      color: #fff !important;
+      text-align: center;
+      font-size: 40px;
+      text-transform: uppercase;
+       margin-bottom: 0;
+      line-height: 110%;
+      font-family: futura-pt, sans-serif;
+    font-weight: 700;
+    letter-spacing: .1em;
+  }*/
+/*.banner-overlay{
+  margin: 0 auto;
+    max-width: 72.29rem;
+    overflow: hidden;
+    padding: 60px 170px;
+    z-index: 1;
+    position: relative;
+  }
+.header-image-container{
+  position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}*/
+/*.home #page #content {
+  padding-top:5em;
+}*/
+
+.page-template-template-homepage .type-page{
+padding-bottom:0;
+
+}
+
+.woocommerce-tabs {
+  padding-top:0;
+}
+.page-title{
+  padding-left:0;
+}
+
+.home.blog .site-header, .home.page:not(.page-template-template-homepage) .site-header, .home.post-type-archive-product .site-header {
+    margin-bottom: 0;
+}
+
+.entry-content p, .term-description p {
+  line-height:1.714285714;
+}
+
+.cat_thumb_left{
+  width:22%;
+  display:inline-block;
+  vertical-align:top;
+  margin-right:5%;
+}
+
+.cat_content_right{
+  width:70%;
+  display:inline-block;
+}
+
+/**** CREATE LIST OF PRODUCTS INSTEAD OF TILES*****/
+
+.woocommerce-loop-product__title{
+  text-align:left;
+  display:inline-block;
+}
+.site-main .columns-3 ul.products li.product{
+  width:100%;
+  margin:2%;
+  text-align:left;
+}
+ul.products {
+  margin-bottom:2.617924em;
+}
+
+
+
+ul.products li.product .button,  ul.products li.button{
+  float:none;
+  font-family: "futura-pt", sans-serif;
+  border:solid 1px #78BE20;
+  background-color: #FFF;
+  margin-bottom:0;
+  /*margin-top:0.5em;*/
+  padding:.6180469716em 0.5em;
+  font-weight:bold;
+
+  text-align:center; /*mobile*/
+}
+ul.products li.product .ajax_add_to_cart,  ul.products li.ajax_add_to_cart{
+  width:30%; /*mobile*/
+  margin:0 0 0 70%;/*mobile*/
+}
+
+
+
+ul.products li.product .button:hover{
+color:#78BE20;
+}
+
+.site-main .columns-3 ul.products li.product:first-child  {
+  border-top: solid 1px #5B6770;
+
+}
+
+.site-main .columns-3 ul.products li.product{
+  border-bottom: solid 1px #5B6770;
+  padding:2% 0;
+  margin:0;
+  /*background-color:#F1F1F1;*/
+}
+
+.site-main .columns-3 ul.products li.product:nth-child(even){
+  /*background-color:#E1E1E1;*/
+;
+
+}
+
+/*category titles*/
+ul.products li.product.product-category .woocommerce-loop-category__title, ul.products li.product.product-category h2, ul.products li.product.product-category h3{
+    font-size:1em;
+    margin-bottom:0;
+    font-weight:bold;
+    margin-left:0;
+    word-wrap: normal;
+}
+
+/*product titles*/
+ul.products li.product .woocommerce-loop-product__title, ul.products li.product h2, ul.products li.product h3{
+  margin-left:1em;
+  padding: 0;
+  margin-bottom:0.5em;
+  font-weight:bold;
+  color:#78BE20;
+  text-transform:uppercase;
+  width:70%;
+  font-size:0.9rem;
+}
+
+.entry-title, .page-title{
+  /*font-weight:bold;*/
+  margin-top:0.25em;
+text-transform:uppercase;
+color:#78BE20;
+font-size:2.2em;
+}
+
+/*ul.products li.has-post-thumbnail .woocommerce-loop-product__title, ul.products li.product h2, ul.products li.product h3{
+  vertical-align:top;
+  margin-left:1em;
+  padding:0;
+}*/
+ul.products li.product .price{
+  /*padding:.6180469716em 0;
+  margin-bottom:0;*/
+  padding: 0;
+  /*margin-left:1.25em;*/
+  margin-left:0;
+  display:inline-block;
+  float:right;
+  margin-top:0;
+  font-weight:bold;
+
+}
+/*product price for products with thumbnails*/
+/*ul.products li.has-post-thumbnail .price .woocommerce-Price-amount {
+
+margin-left:1em;
+}*/
+ul.products li.product .price .woocommerce-Price-amount{
+  margin-left:1em;
+
+}
+
+
+
+/*.product .summary .price {
+  text-align:right;
+}
+
+.product .cart {
+  text-align:right;
+}
+.single-product div.product form.cart .quantity{
+  display:inline-block;
+  float:none;
+}*/
+
+.woocommerce-error, .woocommerce-info, .woocommerce-message, .woocommerce-noreviews, p.no-comments{
+  background-color:#a50b0b;
+}
+
+/*product thumbnails*/
+/*ul.products li.product img{
+  margin:0 0 1.618em;
+  max-width:30%;
+  float:left;
+}*/
+
+/*Don't show "Associated Courses"*/
+.bridge-woo-associated-courses{
+  display:none;
+}
+
+
+/*This is added to remove the notice from e-books, which are linked to iTunes instead of sold here.
+We shouldn't really have any other out of stock products, as inventory isn't an issue*/
+.out-of-stock{
+  display:none;
+}
+
+/*if we remove the product images from the product pages, we need to resize the rest*/
+
+
+ul.products li.product.product-category span.excerpt p{
+  width:90%;
+  margin-top:1em;
+  margin-bottom:1em;
+}
+
+/*ul.products li {width:22% !important;} */
+ul.products span.excerpt p{
+  /*padding-bottom:14px !important;*/
+  margin: 0 0 0 2em;
+  color: #444;
+  width:60%;
+  line-height:1.2;
+}
+
+
+
+.textwidget p{
+  margin:0;
+}
+.textwidget ol{
+  margin:0 0 1.41575em 1em;
+}
+
+.woocommerce-mini-cart__empty-message{
+  padding:20px;
+  margin:0;
+}
+.widget {
+  margin: 0 0 2em;
+}
+.widget .widget-title, .sidebar-cart-title{
+  font-size:11px;
+  border-bottom:1px solid #eee;
+  padding:0 0 5px 0;
+  margin-bottom:5px;
+  text-transform:uppercase;
+  color:#999;
+}
+
+.widget-area .widget a, .hentry .entry-header .posted-on a, .hentry .entry-header .byline a{
+  color:#444;
+  text-decoration:none !important;
+  font-weight:700;
+}
+
+.widget-area .widget a:not(.button){
+  font-weight:400;
+
+}
+
+.widget-area .widget_product_categories{
+  padding:15px;
+  border: 1px solid #f3f3f3;
+}
+
+
+.site-content{
+  margin-top:160px;
+}
+
+.edustore_registration_notice{
+  border: 1px solid red;
+  padding:1em;
+  margin-bottom:1.5em;
+}
+
+
+ul.products li form.cart .quantity{
+  display:inline-block;
+  margin-right:0.7em;
+}
+
+  li form {
+    margin-bottom:5px;
+    margin-top:5px;
+    text-align:right;
+  }
+  ul.products li.product .quantity .button{
+
+    width:auto;
+    margin:0;
+    }
+
+
+@media (min-width: 768px){
+
+  .site-header .site-branding {
+    margin-right:2%;
+    width:35%;
+  }
+  .woocommerce-active .site-header .secondary-navigation{
+    width:35%;
+  }
+
+  ul.products li.product .button,  ul.products li.button{
+    float:right;
+    margin:0;
+    width:auto;
+  }
+  /*product quantity/add to cart buttons, when there is a quantity field*/
+  ul.products li form.cart {
+    display:inline-block;
+    float:right;
+    margin-top:0;
+  }
+
+  li form {
+    margin-bottom:0;
+    margin-top:0;
+    text-align:left;
+  }
+
+  ul.products li form.cart .button, ul.products li.button {
+    margin-top:0;
+  }
+  ul.products li.product .woocommerce-LoopProduct-link{
+    display:inline-block;
+    width:70%; /* was 60%*/
+  }
+  .site-header-cart .cart-contents:after{
+      line-height:1;
+  }
+  /*.site-header-cart .cart-contents{
+    color:white;
+  }*/
+
+  .woocommerce-active .site-header .site-header-cart{
+    margin-top:20px;
+  }
+
+  .col-full {
+      max-width: 72.29em;
+      /*padding: 0;*/
+    }
+    .right-sidebar .widget-area{
+      margin-top:30px;
+    }
+
+}
+
+.previews{
+  padding:10px;
+  border: 1px dotted #78BE20;
+  margin: 20px 0;
+}
+
+.previews p{
+  margin:0;
+}
+.previews ul{
+  margin:0 0 0 2em;
+}
+.previews .vid_preview, .previews .print_preview{
+  max-width:50%;
+  float:left;
+}
+.previews .vid_preview{
+  margin-right:5%;
+}
+
+.clearfix::after {
+   content: " ";
+   display: block;
+   height: 0;
+   clear: both;
+}
+
+/*there's a JS that shoves this button into the product line if added to cart on individual item (Learner Courses for instance)
+it's annoying and can't be removed elsewhere.  turning it off here.*/
+.added_to_cart{
+  display:none;
+}
+
+.left_ISBN{}
+  .right_ISBN{float:right;}
+
+  .div_ISBN{
+    max-width:80%;
+  }
+
+.textwidget h4{
+  font-size : 1.2em;
+}
+
+a.anchor {
+    display: block;
+    position: relative;
+    top: -120px;
+    visibility: hidden;
+}
+
+#payment .payment_methods .woocommerce-notice {
+  background-color:red;
+  padding-bottom:20px !important;
+}
+#payment .payment_methods .woocommerce-notice:hover {
+  background-color:darkred;
+}
+
+/*Hide main site navigation menu*/
+/*.main-navigation{
+  display:none;
+}*/
+
+/*Temporarily remove search bar*/
+/*.widget_product_search{
+  display:none;
+}*/
+/*.woocommerce-breadcrumb a{
+  color:white;
+  background-color:green;
+}
+
+.breadcrumb-separator{
+  color:green;
+}*/
+
+
+/* Footer Styling */
+img#ketfooter{
+	float: left;
+    height: 70px;
+	width: 155px;
+    margin-top: -5px;
+    margin-right: 10px;
+}
+p#footertext{font-size:.8em;}
+.site-info{ padding:0; }
+.site-footer{
+	padding:1em;
+	border-top: solid 1px lightgray;
+}
+
+/* Tablet Styling */
+@media (max-width: 768px){
+    .site-branding{margin-top:0;}
+    .site-info { padding-bottom: 3em;}
+    .site-header {position:relative;}
+    .site-content {margin-top: 20px;}
+
+    .site-header .custom-logo-link img{
+      max-width:50%;
+      margin:0 auto;
+    }
+    .site-header .custom-logo-link{
+      float:none;
+    }
+
+}
+
+/* Phone Styling */
+@media (max-width: 568px){
+    .woocommerce-active .site-branding,
+    .site-header .custom-logo-link,
+    .site-header .site-branding,
+    .site-header .site-logo-anchor,
+    .site-header .site-logo-link{
+        float:none;
+    }
+    .woocommerce-products-header p img {
+      width:100%;
+      padding:2% 15% 5% 15%;
+    }
+    .site-header .custom-logo-link img{
+        max-width:300px;
+    }
+    .site-header{
+        display:flex;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    img#ketfooter{
+        float:none;
+        margin:auto;
+    }
+    .site-footer #idblock{
+        text-align:center;
+    }
+}
+
+/*  highlight Video Disclaimer on product pages*/
+.video_disclaimer p {
+  font-size:14px;
+  font-weight:bold;
+  color: red;
+
+}
+
+.course_desc{
+  border: 1px solid darkgrey;
+  padding:1em;
+  margin:1em 0;
+
+}
+.course_info{
+  /* border: 1px solid darkgrey; */
+  padding:1em;
+  margin:1em 0;
+}
+
+/*  change styling of my courses tiles*/
+.wdm-course-grid h4{
+  font-size:1em;
+  overflow:visible;
+}

@@ -944,7 +944,13 @@
 
 
 
-        function setFormValues(FirstName = '', lastname = '', email = ''){
+        // function setFormValues(FirstName = '', lastname = '', email = ''){
+
+        function setFormValues(FirstName, lastname, email){
+          if (!FirstName) FirstName = '';
+          if (!lastname) lastname = '';
+          if (!email) email = '';
+
             jQuery("#wdm_enroll_fname").val(FirstName);
             jQuery("#wdm_enroll_lname").val(lastname);
             jQuery("#wdm_enroll_email").val(email);

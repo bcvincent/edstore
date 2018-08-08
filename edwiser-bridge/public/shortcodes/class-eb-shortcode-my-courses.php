@@ -78,7 +78,9 @@ class EbShortcodeMyCourses
             edwiserBridgeInstance()->getVersion()
         );
         echo '<div class="eb-my-courses-wrapper">';
-
+        if (!empty($atts['my_courses_wrapper_title'])) {
+            ?><h2 class="eb-my-courses-h2"><?php echo $atts['my_courses_wrapper_title']; ?></h2><?php
+        }
         do_action('eb_before_my_courses');
         if (!is_user_logged_in()) {
             ?>
@@ -118,7 +120,7 @@ class EbShortcodeMyCourses
             <h5>
                 <?php
                 printf(
-                    __('You are not enrolled in any courses. %s to shop for courses.', 'eb-textdomain'),
+                    __('You are not enrolled to any course. %s to shop for courses.', 'eb-textdomain'),
                     "<a href='".esc_url(site_url('/'))."'>".__("Click here", "eb-textdomain")."</a>"
                 );
                 ?>

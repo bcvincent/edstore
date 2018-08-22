@@ -373,13 +373,8 @@
 
         }
 
-        $(document).on('keypress', 'input', '#add-quantity-inp', function (event) {
-
-            if (event.which == 45 || event.which == 189) {
-                event.preventDefault();
-            }
-
-        });
+       
+        
         var editId;
         function mucpGetEnrolUserForm(width, height, title, button, flag, popUp) {
             var opt = {

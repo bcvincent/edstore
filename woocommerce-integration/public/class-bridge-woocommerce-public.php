@@ -118,62 +118,64 @@ namespace NmBridgeWoocommerce{
         public function displayProductRelatedCourses()
         {
             global $product;
-            //error_log(print_r($product->get_type(), true));
-            if (($product->is_type('simple') || $product->is_type('subscription') ) && shortcode_exists('bridge_woo_display_associated_courses')) {
-                $product_id = get_the_ID();
-                echo esc_html(do_shortcode('[bridge_woo_display_associated_courses product_id='.$product_id.']'));
-            } elseif ($product->is_type('variable') || $product->is_type('variable-subscription')) {
-                $available_variations = $product->get_available_variations();
+            $setting_woo_integration = get_option('eb_woo_int_settings');
+            if (isset($setting_woo_integration['wi_enable_asso_courses']) && $setting_woo_integration['wi_enable_asso_courses'] === 'yes') {
+                if (($product->is_type('simple') || $product->is_type('subscription') ) && shortcode_exists('bridge_woo_display_associated_courses')) {
+                    $product_id = get_the_ID();
+                    echo esc_html(do_shortcode('[bridge_woo_display_associated_courses product_id='.$product_id.']'));
+                } elseif ($product->is_type('variable') || $product->is_type('variable-subscription')) {
+                    $available_variations = $product->get_available_variations();
 
 
-                $variation_settings = array();
+                    $variation_settings = array();
 
-                if (!empty($available_variations)) {
-                    foreach ($available_variations as $single_variation) {
-                        $return = '';
-                        $variation_id = $single_variation['variation_id'];
-                        $product_options = get_post_meta($variation_id, 'product_options', true);
+                    if (!empty($available_variations)) {
+                        foreach ($available_variations as $single_variation) {
+                            $return = '';
+                            $variation_id = $single_variation['variation_id'];
+                            $product_options = get_post_meta($variation_id, 'product_options', true);
 
-                        //$single_variation_setting = array();
+                            //$single_variation_setting = array();
 
-                        if (!empty($product_options)) {
-                            if (isset($product_options['moodle_post_course_id']) && is_array($product_options['moodle_post_course_id']) && !empty($product_options['moodle_post_course_id'])) {
-                                $return = ' <ul class="bridge-woo-available-courses">';
-                                foreach ($product_options['moodle_post_course_id'] as $single_course_id) {
-                                    if ('publish' === get_post_status($single_course_id)) {
-                                        ob_start();
-                                        ?>
-                                        <li>
-                                            <a href="<?php echo esc_url(get_permalink($single_course_id)); ?>" target="_blank"><?php echo get_the_title($single_course_id); ?></a>
-                                        </li>
-                                        <?php
-                                        $return .= ob_get_clean();
+                            if (!empty($product_options)) {
+                                if (isset($product_options['moodle_post_course_id']) && is_array($product_options['moodle_post_course_id']) && !empty($product_options['moodle_post_course_id'])) {
+                                    $return = ' <ul class="bridge-woo-available-courses">';
+                                    foreach ($product_options['moodle_post_course_id'] as $single_course_id) {
+                                        if ('publish' === get_post_status($single_course_id)) {
+                                            ob_start();
+                                            ?>
+                                            <li>
+                                                <a href="<?php echo esc_url(get_permalink($single_course_id)); ?>" target="_blank"><?php echo get_the_title($single_course_id); ?></a>
+                                            </li>
+                                            <?php
+                                            $return .= ob_get_clean();
+                                        }
                                     }
+                                    $return .= '</ul>';
                                 }
-                                $return .= '</ul>';
                             }
-                        }
 
-                            $variation_settings[$variation_id] = apply_filters('bridge_woo_single_variation_html', $return, $variation_id);
-                    }//foreach ends
+                                $variation_settings[$variation_id] = apply_filters('bridge_woo_single_variation_html', $return, $variation_id);
+                        }//foreach ends
 
-                    wp_register_script('bridge_woo_variation_courses', BRIDGE_WOOCOMMERCE_PLUGIN_URL . 'public/js/bridge-woocommerce-variation-courses.js', array('jquery'), $this->version);
+                        wp_register_script('bridge_woo_variation_courses', BRIDGE_WOOCOMMERCE_PLUGIN_URL . 'public/js/bridge-woocommerce-variation-courses.js', array('jquery'), $this->version);
 
-                    wp_enqueue_script('bridge_woo_variation_courses');
+                        wp_enqueue_script('bridge_woo_variation_courses');
 
-                    wp_localize_script('bridge_woo_variation_courses', 'bridge_woo_courses', json_encode($variation_settings));
+                        wp_localize_script('bridge_woo_variation_courses', 'bridge_woo_courses', json_encode($variation_settings));
 
-                    ob_start();
+                        ob_start();
 
-                    ?>
-                        <div class="bridge-woo-courses" style="display:none;">
-                            <h4><?php _e('Available courses', WOOINT_TD); ?></h4>
-                        </div>
-                    <?php
+                        ?>
+                            <div class="bridge-woo-courses" style="display:none;">
+                                <h4><?php _e('Available courses', WOOINT_TD); ?></h4>
+                            </div>
+                        <?php
 
-                    $content = ob_get_clean();
+                        $content = ob_get_clean();
 
-                    echo apply_filters('bridge_woo_variation_associated_courses', $content);
+                        echo apply_filters('bridge_woo_variation_associated_courses', $content);
+                    }
                 }
             }
         }
@@ -181,7 +183,9 @@ namespace NmBridgeWoocommerce{
         public function groupedProductDisplayAssociatedCourses($product)
         {
             $product_options = get_post_meta($product->get_id(), 'product_options', true);
-          
+            // $setting_woo_integration = get_option('eb_woo_int_settings');
+
+
             // echo '<td>';
             // echo esc_html(do_shortcode('[bridge_woo_display_associated_courses product_id='.$product->get_id().']'));
             // echo '</td>';
@@ -260,6 +264,82 @@ namespace NmBridgeWoocommerce{
                 }
             }
         }
+        public function addWoocomerceOrdersToUserAccountPage($user_orders)
+        {
+            if (!is_user_logged_in() || is_admin()) {
+                return;
+            }
+            global $post;
+            $content = $post->post_content;
+            if (! has_shortcode($content, 'eb_user_account')) {
+                 return;
+            }
+            $customer_orders = get_posts(
+                array(
+                    'numberposts' => -1,
+                    'meta_key' => '_customer_user',
+                    'meta_value' => get_current_user_id(),
+                    'post_type' => wc_get_order_types(),
+                    'post_status' => array_keys(wc_get_order_statuses()),
+                    )
+            );
+            $wooOrders=$this->getUsersWoocommerceOrders($customer_orders);
+            $user_orders=array_merge($user_orders, $wooOrders);
+            return $user_orders;
+        }
+        public function getUsersWoocommerceOrders($customer_orders)
+        {
+            $courseAssociatedOrders=array();
+            foreach ($customer_orders as $key => $orderObject) {
+                $formattedOrderData=array();
+                // if Order Belongs to subscription order shop_subscription do not include
+                if ($orderObject->post_type==='shop_subscription') {
+                    $formattedOrderData=[];
+                    continue;
+                }
+
+                $formattedOrderData['order_id']=$orderObject->ID;
+
+                //Get WC order Object
+                $order = wc_get_order($orderObject->ID);
+                $formattedOrderData['status']=$order->get_status();
+                $formattedOrderData['amount_paid']=$order->get_formatted_order_total();
+
+                //Get WC order Object data
+                $orderData = $order->get_data();
+                $formattedOrderData['billing_email']=$orderData['billing']['email'];
+                $formattedOrderData['currency']=$orderData['currency'];
+                $formattedOrderData['date']=$orderData['date_created']->date('Y-m-d');
+
+                //$productItem is WC_Order_Item_Product Object
+                $orderedItems=$order->get_items();
+                $formattedOrderData['ordered_item']= array();
+                foreach ($orderedItems as $key => $productItem) {
+                    //Get variation id
+
+                    $productId=$productItem->get_product_id();
+
+                    $variationId=$productItem->get_variation_id();
+                    if ($variationId != 0) {
+                        $productId=$variationId;
+                    }
+
+                    $productOptions=get_post_meta($productId, 'product_options', true);
+
+                    //if the product is not associated with any moodle course
+                    if ($productOptions == false || empty($productOptions)) {
+                        continue;
+                    } elseif (!empty($productOptions['moodle_post_course_id'])) {
+                        //array merge for courses from different product
+                        $formattedOrderData['ordered_item']=array_merge($formattedOrderData['ordered_item'], $productOptions['moodle_post_course_id']);
+                    }
+                }
+                $courseAssociatedOrders[]=$formattedOrderData;
+                $formattedOrderData=[];
+            }
+            return $courseAssociatedOrders;
+        }
+
 
         public function thankYouOrderReceivedText($msg, $order)
         {

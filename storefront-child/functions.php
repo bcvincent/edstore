@@ -29,6 +29,8 @@ add_filter( 'woocommerce_checkout_fields' , 'custom_change_woo_checkout_company'
 function custom_change_woo_checkout_company( $fields ) {
     // remove billing phone number
     $fields['billing']['billing_company']['label'] = "Organization";
+    // $fields['billing']['billing_email']['label'] = "Billing E-mail";
+
     $fields['shipping']['shipping_company']['label'] = "Organization";
 
     // unset($fields['billing']['billing_company']);
@@ -360,7 +362,6 @@ add_action( 'woocommerce_grouped_product_list_before_price', 'remove_edwiser_gro
 
 
 //show only the top-level grouped products in searches and filters.
-//this does not apply to p-k-12 products at the moment because they do not use grouped products.
 
 add_action( 'woocommerce_product_query', 'only_grouped_products_query' );
 function only_grouped_products_query( $q ) {
@@ -368,7 +369,6 @@ function only_grouped_products_query( $q ) {
     $category_check = $q->query['product_cat'];
 
 
-        if($category_check!='pd-k-12'){ //for all categories except pd-k-12
               //get current loop query
              $taxonomy_query = $q->get('tax_query') ;
              //appends the grouped products condition
@@ -381,7 +381,7 @@ function only_grouped_products_query( $q ) {
 
 
              $q->set( 'tax_query', $taxonomy_query );
-         }
+
      }
      else{};
 }
@@ -397,40 +397,88 @@ function force_pretty_displaynames($user_login, $user) {
 add_action('wp_login','force_pretty_displaynames',10,2);
 
 
+//add PO to order searches
+add_filter( 'woocommerce_shop_order_search_fields', 'woocommerce_shop_order_search_order_total' );
+function woocommerce_shop_order_search_order_total( $search_fields ) {
+    $search_fields[] = '_po_number';
+    return $search_fields;
+}
+
+add_action('woocommerce_before_checkout_billing_form', 'enrollment_disclaimer');
+function enrollment_disclaimer(){
+  echo "<h5 class='enrollmentdisclaimer'>Please enter your <em>own</em> information here, including e-mail address. If you plan to enroll someone else in a course, you will receive instructions on how to do so after this purchase is completed.</h5>";
+  // echo "TEST";
+}
+
+add_action('wp_head', 'wpb_add_googleanalytics');
+function wpb_add_googleanalytics() {
+  ?>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2185463-43"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-2185463-43');
+  </script>
+  <?php
+}
+
+
 /**
- * Add Cynthia email recipient for admin New Order emails if SBDM is ordered
+ * Alter email recipients based on what products are ordered
  *
  * @param string $recipient a comma-separated string of email recipients (will turn into an array after this filter!)
  * @param \WC_Order $order the order object for which the email is sent
  * @return string $recipient the updated list of email recipients
  */
-// function sv_conditional_email_recipient( $recipient, $order ) {
-// 	// Bail on WC settings pages since the order object isn't yet set yet
-// 	$page = $_GET['page'] = isset( $_GET['page'] ) ? $_GET['page'] : '';
-// 	if ( 'wc-settings' === $page ) {
-// 		return $recipient;
-// 	}
-//
-// 	// just in case
-// 	if ( ! $order instanceof WC_Order ) {
-// 		return $recipient;
-// 	}
-// 	// $items = $order->get_items();
-//
-// 	// check if a shipped product is in the order
-// 	// foreach ( $items as $item ) {
-// 		// $product = $order->get_product_from_item( $item );
-// 	foreach ($order->get_items() as $item_key => $item_values){
-//     $item_name = $item_values->get_name();
-// 		if ( $product && strpos($item_name, 'SBDM') !== false) {
-// 			$recipient .= ', bcvincent+sbdm@gmail.com';
-// 			return $recipient;
-// 		}
-// 	}
-//
-// 	return $recipient;
-// }
-// add_filter( 'woocommerce_email_recipient_new_order', 'sv_conditional_email_recipient', 10, 2 );
+function sv_conditional_email_recipient( $recipient, $order ) {
+
+	// Bail on WC settings pages since the order object isn't yet set yet
+
+  $page = $_GET['page'] = isset( $_GET['page'] ) ? $_GET['page'] : '';
+	if ( 'wc-settings' === $page ) {
+		return $recipient; 
+	}
+	
+	// just in case
+	if ( ! $order instanceof WC_Order ) {
+		return $recipient; 
+	}
+
+	$items = $order->get_items(); 
+
+  // check what products are in order. 
+  $ECE_in_order = false;
+  $SBDM_in_order = false;
+
+	foreach ( $items as $item ) {
+    $item_data = $item->get_data();
+    $product_id = $item['product_id'];  
+    if ( has_term( 'pd-early-childhood-education', 'product_cat', $product_id ) ) {
+      $ECE_in_order = true;
+    }
+    if ( has_term( 'pd-k-12', 'product_cat', $product_id ) ) {
+      $SBDM_in_order = true;
+    } 
+  }
+  
+    if($ECE_in_order==true) {
+    $recipient .= ', ChildDev@ket.org';
+    }
+    if($SBDM_in_order==true){
+      $recipient .= ', cbarton@ket.org, gedwards@ket.org';
+    }
+    return $recipient;
+ 
+}
+add_filter( 'woocommerce_email_recipient_new_order', 'sv_conditional_email_recipient', 10, 2 );
+add_filter( 'woocommerce_email_recipient_cancelled_order', 'sv_conditional_email_recipient', 10, 2 );
+add_filter( 'woocommerce_email_recipient_failed_order', 'sv_conditional_email_recipient', 10, 2 );
+
+
+
 
 
 
